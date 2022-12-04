@@ -15,6 +15,6 @@ public class Main {
         System.out.println("Instructions in the map: "+myfile.myInstructions);
         myfile.getMemory();
         System.out.println("Memory: "+myfile.tempMemory);
-        System.out.println("TEST TEST ");
+        System.out.println("Testing");
     }
 }
