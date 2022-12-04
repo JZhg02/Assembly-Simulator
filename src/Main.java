@@ -16,5 +16,17 @@ public class Main {
         myfile.getInstructions();
         System.out.println("Instructions in the map: "+Memory.instructionsMap);
         System.out.println("Memory: "+Memory.memory);
+
+        MyStack myStack = new MyStack();
+
+        myStack.push(5);
+        System.out.println("Stack: "+myStack);
+        myStack.push(7);
+        System.out.println("Stack: "+myStack);
+        myStack.push(2);
+        System.out.println("Stack: "+myStack);
+        int register = myStack.pop();
+        System.out.println("Stack after: "+myStack);
+        System.out.println("Register: "+register);
     }
 }
