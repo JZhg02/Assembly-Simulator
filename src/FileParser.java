@@ -13,14 +13,6 @@ public class FileParser {
     // All the lines of instructions
     ArrayList<String> instructionsLines = new ArrayList<>();
 
-    // Temporary memory that will need to be moved to a Memory class
-    // Data in memory
-    HashMap<String, Integer> myData = new HashMap<>();
-    // Instructions in memory
-    HashMap<Integer, ArrayList<String>> myInstructions = new HashMap<>();
-    // Memory (could be infinite as the professor said so...)
-    ArrayList<HashMap> tempMemory = new ArrayList<>();
-
     FileParser(){};
 
     // Parse entire file
@@ -113,7 +105,7 @@ public class FileParser {
         for(String dataLine : dataLines){
             // Splits the line in 2 when it encounters the first whitespace
             String[] arrOfStr = dataLine.split(" ", 2);
-            myData.put(arrOfStr[0], Integer.valueOf(arrOfStr[1]));
+            Memory.dataMap.put(arrOfStr[0], Integer.valueOf(arrOfStr[1]));
         }
     }
 
@@ -149,20 +141,15 @@ public class FileParser {
                 for(int i=0; i<whitespaceCounter+1; i++){
                     values.add(arrOfStr[i]);
                 }
-                myInstructions.put(problemCounter, values);
+                Memory.instructionsMap.put(problemCounter, values);
                 // Resets
                 whitespaceCounter = 0;
                 spaceIsPresent = false;
             } else {
                 values.add(instructionsLine);
-                myInstructions.put(problemCounter, values);
+                Memory.instructionsMap.put(problemCounter, values);
             }
         }
-    }
-
-    public void getMemory(){
-        this.tempMemory.add(this.myData);
-        this.tempMemory.add(this.myInstructions);
     }
 
 }

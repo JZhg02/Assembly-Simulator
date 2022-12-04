@@ -9,12 +9,12 @@ public class Main {
         System.out.println("The lines of data: "+myfile.dataLines);
         myfile.getInstructionsLines();
         System.out.println("The lines of instructions: "+myfile.instructionsLines);
+
+        Memory myMemory = new Memory();
         myfile.getData();
-        System.out.println("Data in the map: "+myfile.myData);
+        System.out.println("Data in the map: "+Memory.dataMap);
         myfile.getInstructions();
-        System.out.println("Instructions in the map: "+myfile.myInstructions);
-        myfile.getMemory();
-        System.out.println("Memory: "+myfile.tempMemory);
-        System.out.println("Testing");
+        System.out.println("Instructions in the map: "+Memory.instructionsMap);
+        System.out.println("Memory: "+Memory.memory);
     }
 }
