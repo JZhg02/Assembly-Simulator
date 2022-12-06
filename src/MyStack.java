@@ -2,11 +2,11 @@ import java.util.Stack;
 
 public class MyStack {
 
-    Stack<Integer> myStack = new Stack<>();
+    static Stack<Integer> myStack = new Stack<>();
 
     MyStack(){};
 
-    public void push(int integer){
+    public static void push(int integer){
         myStack.push(integer);
     }
 

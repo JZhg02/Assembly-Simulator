@@ -1,5 +1,5 @@
 public class Main {
-    public static void main(String []args){
+    public static void main(String []args) throws Exception {
 
         System.out.println("Hello\n");
         FileParser myfile = new FileParser();
@@ -28,5 +28,9 @@ public class Main {
         int register = myStack.pop();
         System.out.println("Stack after: "+myStack);
         System.out.println("Register: "+register);
+
+        Register myRegister = new Register();
+        ALU myALU = new ALU();
+        System.out.println("Register :  " + myALU.LDA(myRegister,"var"));
     }
 }
