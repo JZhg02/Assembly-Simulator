@@ -1,20 +1,11 @@
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Stack;
-
 public class ALU {
-    Register t0 = new Register();
-    Register t1 = new Register();
-    Register t2 = new Register();
-    Register t3 = new Register();
+
     int maxLength = 32;
 
-    public char[] int2char(int b) throws Exception {
-
+    public char[] int2binary(int decimal) throws Exception {
 
         // Convert int bb to 0,1 char[]
-        char[] binary = (Integer.toString(b, 2)).toCharArray();
-
+        char[] binary = (Integer.toString(decimal, 2)).toCharArray();
 
         // Overflow condition
         if (binary.length > maxLength)
@@ -23,10 +14,9 @@ public class ALU {
         return binary;
     }
 
-    public int char2int(char[] c) {
-        return Integer.parseInt(new String(c), 2);
+    public int binary2int(char[] binary) {
+        return Integer.parseInt(new String(binary), 2);
     }
-
 
     public boolean isRegister(String s) {
         if (s.equals("t0") || s.equals("t1") || s.equals("t2") || s.equals("t3")) {
@@ -42,32 +32,24 @@ public class ALU {
         return false;
     }
 
-    public boolean isConstant(String s) {
-        if (s.charAt(0) >= '0' && s.charAt(0) <= '9') {
-            return true;
+    public Register LDA(Register registerName, String valueName) throws Exception {
+        if (isRegister(valueName)) {
+            int index = Integer.parseInt(valueName);
+            char[] binary = int2binary(index);
+            registerName.setRegister(binary);
+        } else if (isVariable(valueName)) {
+            int index = Memory.dataMap.get(valueName);
+            char[] binary = int2binary(index);
+            registerName.setRegister(binary);
+        } else {
+            int index = Integer.parseInt(valueName);
+            char[] binary = int2binary(index);
+            registerName.setRegister(binary);
         }
-        return false;
+        return registerName;
     }
-
-
-    public Register LDA(Register RegisterName, String ValueName) throws Exception {
-        if (isRegister(ValueName)) {
-            int index = Integer.parseInt(ValueName);
-            char[] c = int2char(index);
-            RegisterName.setRegisters(ValueName, c);
-        } else if (isVariable(ValueName)) {
-            int index = Memory.dataMap.get(ValueName);
-            char[] c = int2char(index);
-            RegisterName.setRegisters(ValueName, c);
-        } else if (isConstant(ValueName)) {
-            int index = Integer.parseInt(ValueName);
-            char[] c = int2char(index);
-            RegisterName.setRegisters(ValueName, c);
-        }
-        return RegisterName;
-    }
-
-
+/*
+    // char[] c not used
     public void STR(String VariableName, String ValueName) throws Exception {
         if (isRegister(ValueName)) {
             int index = Integer.parseInt(ValueName);
@@ -93,7 +75,7 @@ public class ALU {
     public void POP(Register register) throws Exception {
         char[] t = int2char(Memory.dataMap.get("sp"));
         Memory.dataMap.put("sp", Memory.dataMap.get("sp") + 1);
-        t0.setRegisters(String.valueOf(register), t);
+        //t0.setRegisters(String.valueOf(register), t);
     }
 
     public void AND(Register RegisterName, String ValueName) throws Exception {
@@ -274,8 +256,8 @@ public class ALU {
             }
             i++;
         }
-        Memory.codeMap.get(label).setIndex(i);
-    }
+        // Memory.codeMap.get(label).setIndex(i);
+    }*/
 
 
 

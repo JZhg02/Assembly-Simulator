@@ -31,6 +31,17 @@ public class Main {
         System.out.println("Register: "+register);
         */
 
+        ALU myALU = new ALU();
+        Register t0 = new Register();
+        Register t1 = new Register();
+        Register t2 = new Register();
+        Register t3 = new Register();
+
+        System.out.println(myALU.int2binary(35));
+        System.out.println("Test trying to add 10 to t0: "+ myALU.LDA(t0, "10"));
+        System.out.println("Printing t0: " +t0);
+        System.out.println("Printing dec value of t0: " +t0.getDecimalValue());
+
         CodeExecution myCode = new CodeExecution();
         myCode.executeCode();
 
