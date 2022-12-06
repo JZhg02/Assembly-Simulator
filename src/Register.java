@@ -1,7 +1,6 @@
 public class Register {
-    int[] array;
 
-    String registers = "00000000000000000000000000000000";
+    int[] array;
 
     public Register(){
         array = new int[32];
@@ -10,12 +9,6 @@ public class Register {
         }
     }
 
-    public Register(String registers) {
-        array = new int[32];
-        for (int i = 0; i < 32; i++) {
-            array[i] = 0;
-        }
-    }
     public void setRegisters(String register, char[] c) {
         for (int i = 0; i < c.length; i++) {
             if (c[i] == '1') {

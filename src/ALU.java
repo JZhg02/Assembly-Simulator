@@ -1,24 +1,18 @@
 import java.util.ArrayList;
 
 public class ALU {
-    public Register t0;
-    public Register t1;
-    public Register t2;
-    public  Register t3;
-    public int maxLength;
 
-    ALU() {
-        this.t0 = new Register("t0");
-        this.t1 = new Register("t1");
-        this.t2 = new Register("t2");
-        this.t3 = new Register("t3");
-        this.maxLength = 32;
-    }
+    Register t0 = new Register();
+    Register t1 = new Register();
+    Register t2 = new Register();
+    Register t3 = new Register();
+    int maxLength = 32;
 
+    ALU(){};
 
     public char[] int2char(int b) throws Exception {
 
-        // Convert int bb to 0,1 char[]
+        // Convert base 10 to base 2 (binary) char[]
         char[] binary = (Integer.toString(b, 2)).toCharArray();
 
         // Overflow condition
@@ -43,15 +37,11 @@ public class ALU {
         return Integer.parseInt(new String(c), 2);
     }
 
-
-
     public void LDA(String register, String register2) throws Exception {
         int index = Integer.parseInt(register2);
         char[] c = int2char(index);
         t0.setRegisters(register, c);
     }
-
-
     public void LDAv2(String register, int constante) throws Exception {
         char[] t = int2char(constante);
         t0.setRegisters(register, t);
