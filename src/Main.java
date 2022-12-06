@@ -17,6 +17,7 @@ public class Main {
         System.out.println("Instructions in the map: "+Memory.instructionsMap);
         System.out.println("Memory: "+Memory.memory);
 
+        /*
         MyStack myStack = new MyStack();
 
         myStack.push(5);
@@ -28,9 +29,10 @@ public class Main {
         int register = myStack.pop();
         System.out.println("Stack after: "+myStack);
         System.out.println("Register: "+register);
+        */
 
-        Register myRegister = new Register();
-        ALU myALU = new ALU();
-        System.out.println("Register :  " + myALU.LDA(myRegister,"var"));
+        CodeExecution myCode = new CodeExecution();
+        myCode.executeCode();
+
     }
 }
