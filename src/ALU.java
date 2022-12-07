@@ -1,14 +1,15 @@
-public class ALU {
+import java.util.ArrayList;
+import java.util.Map;
 
-    int maxLength = 32;
+public class ALU {
 
     public char[] int2binary(int decimal) throws Exception {
 
         // Convert int bb to 0,1 char[]
         char[] binary = (Integer.toString(decimal, 2)).toCharArray();
 
-        // Overflow condition
-        if (binary.length > maxLength)
+        // Overflow condition, 32 is max legnth
+        if (binary.length > 32)
             throw new Exception("Overflow");
 
         return binary;
@@ -246,18 +247,16 @@ public class ALU {
                 JMP(LABEL);
             }
         }
-    }
+    }*/
 
-    public void JMP(String label) throws Exception {
-        int i = 0;
-        for(Object s : Memory.codeMap.keySet()) {
-            if(s.equals(label)) {
+    public void JMP(String label, int problemCounter) throws Exception {
+        for(Map.Entry<Integer, ArrayList<String>> set : Memory.instructionsMap.entrySet()){
+            if(set.getValue().equals(label)){
+                problemCounter = set.getKey();
                 break;
             }
-            i++;
         }
-        // Memory.codeMap.get(label).setIndex(i);
-    }*/
+    }
 
 
 
