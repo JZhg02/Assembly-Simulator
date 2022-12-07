@@ -26,84 +26,79 @@ public class CodeExecution {
             codeLine = Memory.instructionsMap.get(problemCounter);
             System.out.println(Memory.instructionsMap.get(problemCounter));
 
+            // Done
             if(codeLine.get(0).equalsIgnoreCase("LDA")){
-                if(codeLine.get(1).equals("t0")){
-                    myALU.LDA(t0, codeLine.get(2));
-                } else if (codeLine.get(1).equals("t1")){
-                    myALU.LDA(t1, codeLine.get(2));
-                } else if (codeLine.get(1).equals("t2")){
-                    myALU.LDA(t2, codeLine.get(2));
-                } else {
-                    myALU.LDA(t3, codeLine.get(2));
-                }
+                myALU.LDA(checkRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
             /*
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("STR")){
                 myALU.STR(codeLine.get(1), codeLine.get(2));
                 ++problemCounter;
             }
-
+            // To be fixed
             else if(codeLine.get(0).equalsIgnoreCase("PUSH")){
-                myALU.STR(codeLine.get(1));
+                myALU.PUSH(codeLine.get(1));
                 ++problemCounter;
             }
-
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("POP")){
-                myALU.STR(codeLine.get(1));
+                myALU.POP(checkRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
-
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("AND")){
-                myALU.STR(codeLine.get(1), codeLine.get(2));
+                myALU.AND(checkRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
-
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("OR")){
-                myALU.STR(codeLine.get(1), codeLine.get(2));
+                myALU.OR(checkRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
-
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("NOT")){
-                myALU.STR(codeLine.get(1));
+                myALU.NOT(checkRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
-
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("ADD")){
-                myALU.STR(codeLine.get(1), codeLine.get(2));
+                myALU.ADD(checkRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
-
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("SUB")){
-                myALU.STR(codeLine.get(1), codeLine.get(2));
+                myALU.SUB(checkRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
-
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("DIV")){
-                myALU.STR(codeLine.get(1), codeLine.get(2));
+                myALU.DIV(checkRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
-
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("MUL")){
-                myALU.STR(codeLine.get(1), codeLine.get(2));
+                myALU.MUL(checkRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
-
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("MOD")){
-                myALU.STR(codeLine.get(1), codeLine.get(2));
+                myALU.MOD(checkRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
-
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("INC")){
-                myALU.STR(codeLine.get(1));
+                myALU.INC(checkRegister(codeLine.get(1)));
                 ++problemCounter;
             }
-
+            // Done
             else if(codeLine.get(0).equalsIgnoreCase("DEC")){
-                myALU.STR(codeLine.get(1));
+                myALU.DEC(checkRegister(codeLine.get(1)));
                 ++problemCounter;
             }
 
+            // To be fixed
             // Instructions that needs jumps
             else if(codeLine.get(0).equalsIgnoreCase("BEQ")){
                 // We could change the problemCounter here or make the function in ALU return a number directly
@@ -156,6 +151,18 @@ public class CodeExecution {
             System.out.println("This is problem counter "+problemCounter);
             System.out.println("This is code line: "+codeLine);
         }*/
+    }
+
+    public Register checkRegister(String registerName){
+        if(registerName.equals("t0")){
+            return this.t0;
+        } else if (registerName.equals("t1")){
+            return this.t1;
+        } else if (registerName.equals("t2")){
+            return this.t2;
+        } else {
+            return this.t3;
+        }
     }
 
 }
