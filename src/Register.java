@@ -9,6 +9,9 @@ public class Register {
     }
 
     public void setRegister(char[] binaryNumber) {
+        for(int i=0; i<32; i++){
+            this.value[i] = '0';
+        }
         for(int i=binaryNumber.length-1; i>=0; i--){
             if(binaryNumber[binaryNumber.length-1-i] == '1'){
                 this.value[31-i] = '1';
