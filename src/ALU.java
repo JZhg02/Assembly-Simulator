@@ -49,16 +49,13 @@ public class ALU {
         }
         return registerName;
     }
-/*
-    // char[] c not used
+
     public void STR(String VariableName, String ValueName) throws Exception {
         if (isRegister(ValueName)) {
             int index = Integer.parseInt(ValueName);
-            char[] c = int2char(index);
             Memory.dataMap.put(VariableName, index);
-        } else if (isConstant(ValueName)) {
-            int index = Integer.parseInt(ValueName);
-            char[] c = int2char(index);
+        } else {
+            int index = Memory.dataMap.get(ValueName);
             Memory.dataMap.put(VariableName, index);
         }
     }
@@ -66,8 +63,7 @@ public class ALU {
     public void PUSH(String ValueName) throws Exception {
         if (isRegister(ValueName)) {
            MyStack.push(Integer.parseInt(ValueName));
-        } else if (isConstant(ValueName)) {
-            MyStack.push(Integer.parseInt(ValueName));
+        }
         } else if (isVariable(ValueName)) {
             MyStack.push(Memory.dataMap.get(ValueName));
         }
