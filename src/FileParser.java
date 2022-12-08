@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class FileParser {
@@ -20,7 +21,7 @@ public class FileParser {
         // Load the file
         FileInputStream stream = null;
         try {
-            stream = new FileInputStream("src/MyFiles/file4");
+            stream = new FileInputStream("src/MyFiles/file1");
         } catch (FileNotFoundException fnfe){
             fnfe.printStackTrace();
         }

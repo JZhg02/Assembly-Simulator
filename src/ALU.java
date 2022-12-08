@@ -37,7 +37,7 @@ public class ALU {
 
     public Register LDA(Register registerName, String valueName) throws Exception {
         if (isRegister(valueName)) {
-            int index = Integer.parseInt(valueName);
+            int index = CodeExecution.determineRegister(valueName).getDecimalValue();
             char[] binary = int2binary(index);
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
@@ -180,29 +180,44 @@ public class ALU {
         }
     }
 
+    public void SRL(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() >> registerName.getDecimalValue());
+            registerName.setRegister(binary);
+        } else if (isVariable(valueName)) {
+            char [] binary = int2binary(Memory.dataMap.get(valueName) >> registerName.getDecimalValue());
+            registerName.setRegister(binary);
+        } else {
+            char [] binary = int2binary(Integer.parseInt(valueName) >> registerName.getDecimalValue());
+            registerName.setRegister(binary);
+        }
+    }
+
+    public void SRR(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() << registerName.getDecimalValue());
+            registerName.setRegister(binary);
+        } else if (isVariable(valueName)) {
+            char [] binary = int2binary(Memory.dataMap.get(valueName) << registerName.getDecimalValue());
+            registerName.setRegister(binary);
+        } else {
+            char [] binary = int2binary(Integer.parseInt(valueName) << registerName.getDecimalValue());
+            registerName.setRegister(binary);
+        }
+    }
+
+
    public void INC(Register registerName) throws Exception {
        char [] binary = int2binary(registerName.getDecimalValue() + 1);
        registerName.setRegister(binary);
    }
 
-   public void DEC(Register registerName) throws Exception {
-       System.out.println("Bonjour je suis DEC, this is register value "+registerName.getDecimalValue());
-       System.out.println(CodeExecution.t0.getDecimalValue()+" is T0");
-       System.out.println(CodeExecution.t1.getDecimalValue()+" is T1");
-       System.out.println(CodeExecution.t3.getDecimalValue()+" is T3");
-       StringBuilder str1 = new StringBuilder("");
-       for(int i=0; i<CodeExecution.t3.value.length; i++){
-           str1.append(CodeExecution.t3.value[i]);
-       }
-       System.out.println("This is binary before -1: "+str1);
-       char [] binary = int2binary(registerName.getDecimalValue() - 1);
-       StringBuilder str = new StringBuilder("");
-       for(int i=0; i<CodeExecution.t3.value.length; i++){
-           str.append(CodeExecution.t3.value[i]);
-       }
-       System.out.println("This is binary after -1: "+str);
-       registerName.setRegister(binary);
+   public void DEC (Register registerName) throws Exception {
+        char [] binary = int2binary(registerName.getDecimalValue() - 1);
+        registerName.setRegister(binary);
    }
+
+
 
    public void BEQ(String firstParam, String secondParam, String LABEL) {
        int firstValue;
