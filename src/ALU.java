@@ -1,7 +1,5 @@
-import java.util.ArrayList;
-import java.util.Map;
-
 public class ALU {
+
 
     public char[] int2binary(int decimal) throws Exception {
 
@@ -49,139 +47,143 @@ public class ALU {
         }
         return registerName;
     }
-/*
-    // char[] c not used
+
     public void STR(String VariableName, String ValueName) throws Exception {
         if (isRegister(ValueName)) {
-            int index = Integer.parseInt(ValueName);
-            char[] c = int2char(index);
-            Memory.dataMap.put(VariableName, index);
-        } else if (isConstant(ValueName)) {
-            int index = Integer.parseInt(ValueName);
-            char[] c = int2char(index);
+            ValueName = String.valueOf(new Register());
+            Memory.dataMap.put(VariableName, Integer.valueOf(ValueName));
+        } else {
+            int index = Memory.dataMap.get(ValueName);
             Memory.dataMap.put(VariableName, index);
         }
     }
 
     public void PUSH(String ValueName) throws Exception {
-        if (isRegister(ValueName)) {
-           MyStack.push(Integer.parseInt(ValueName));
-        } else if (isConstant(ValueName)) {
-            MyStack.push(Integer.parseInt(ValueName));
-        } else if (isVariable(ValueName)) {
-            MyStack.push(Memory.dataMap.get(ValueName));
+        if (((isRegister(ValueName)) || (isVariable(ValueName))) || (ValueName.charAt(0) >= '0' && ValueName.charAt(0) <= '9')) {
+            int index = Memory.dataMap.get(ValueName);
+            MyStack.push(index);
         }
     }
 
     public void POP(Register register) throws Exception {
-        char[] t = int2char(Memory.dataMap.get("sp"));
-        Memory.dataMap.put("sp", Memory.dataMap.get("sp") + 1);
-        //t0.setRegisters(String.valueOf(register), t);
+        int index = MyStack.pop();
+        char[] binary = int2binary(Integer.parseInt(String.valueOf(index)));
+        register.setRegister(binary);
     }
 
-    public void AND(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) & Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isConstant(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) & Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) & Memory.dataMap.get(ValueName));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
+
+
+    public void AND(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) & Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) & Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) & Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
-    public void OR(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) | Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isConstant(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) | Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) | Memory.dataMap.get(ValueName));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
+    public void OR(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) | Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) | Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) | Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
-    public void NOT(Register RegisterName) throws Exception {
-        char[] t = int2char(~Integer.parseInt(String.valueOf(RegisterName), 2));
-        RegisterName.setRegisters(String.valueOf(RegisterName), t);
+    public void NOT(Register registerName) throws Exception {
+        char[] t = int2binary(~Memory.dataMap.get(String.valueOf(registerName)));
+        registerName.setRegister(t);
     }
 
-    public void ADD(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) + Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isConstant(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) + Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) + Memory.dataMap.get(ValueName));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
+    public void ADD(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) + Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) + Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) + Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
-    public void SUB(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) - Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isConstant(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) - Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) - Memory.dataMap.get(ValueName));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
+    public void SUB(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) - Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) - Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) - Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
-    public void DIV(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) / Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isConstant(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) / Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) / Memory.dataMap.get(ValueName));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
+
+    public void DIV(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) / Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) / Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) / Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
-    public void MUL(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) * Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isConstant(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) * Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) * Memory.dataMap.get(ValueName));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
+   public void MUL(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) * Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) * Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) * Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
-    public void MOD(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) % Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isConstant(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) % Integer.parseInt(ValueName, 2));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) % Memory.dataMap.get(ValueName));
-            RegisterName.setRegisters(String.valueOf(RegisterName), t);
+    public void MOD(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) % Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) % Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) % Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
     public void INC(Register RegisterName) throws Exception {
-        char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) + 1);
-        RegisterName.setRegisters(String.valueOf(RegisterName), t);
+        char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) + 1);
+        RegisterName.setRegister(t);
     }
     public void DEC(Register RegisterName) throws Exception {
-        char[] t = int2char(Integer.parseInt(String.valueOf(RegisterName), 2) - 1);
-        RegisterName.setRegisters(String.valueOf(RegisterName), t);
+        char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) - 1);
+        RegisterName.setRegister( t);
     }
 
 
@@ -247,7 +249,7 @@ public class ALU {
                 JMP(LABEL);
             }
         }
-    }*/
+    }
 
     public void JMP(String label){
         for(Map.Entry<Integer, ArrayList<String>> set : Memory.instructionsMap.entrySet()){
@@ -257,7 +259,5 @@ public class ALU {
             }
         }
     }
-
-
 
 }

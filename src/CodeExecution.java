@@ -118,10 +118,11 @@ public class CodeExecution {
 
             }*/
 
+            /*
             else if(codeLine.get(0).equalsIgnoreCase("JMP")){
                 myALU.JMP(codeLine.get(1));
                 System.out.println(problemCounter);
-            }
+            }*/
             /*
             else if(codeLine.get(0).equalsIgnoreCase("SRL")){
 

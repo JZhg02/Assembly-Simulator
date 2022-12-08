@@ -10,7 +10,7 @@ public class MyStack {
         myStack.push(integer);
     }
 
-    public int pop(){
+    public static int pop(){
         return(myStack.pop());
     }
 

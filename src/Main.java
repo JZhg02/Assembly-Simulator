@@ -1,3 +1,4 @@
+
 public class Main {
     public static void main(String []args) throws Exception {
 
@@ -31,7 +32,7 @@ public class Main {
         System.out.println("Register: "+register);
         */
 
-        ALU myALU = new ALU();
+        /*ALU myALU = new ALU();
         Register t0 = new Register();
         Register t1 = new Register();
         Register t2 = new Register();
@@ -43,7 +44,9 @@ public class Main {
         System.out.println("Printing dec value of t0: " +t0.getDecimalValue());
 
         CodeExecution myCode = new CodeExecution();
-        myCode.executeCode();
+        myCode.executeCode();*/
 
+        ALU myALU = new ALU();
+        System.out.println(myALU.TEST("3"));
     }
 }
