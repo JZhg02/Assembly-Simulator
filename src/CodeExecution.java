@@ -32,12 +32,13 @@ public class CodeExecution {
                 myALU.LDA(determineRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
-            /*
+
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("STR")){
                 myALU.STR(codeLine.get(1), codeLine.get(2));
                 ++problemCounter;
             }
+
             // To be fixed
             else if(codeLine.get(0).equalsIgnoreCase("PUSH")){
                 myALU.PUSH(codeLine.get(1));
@@ -45,9 +46,10 @@ public class CodeExecution {
             }
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("POP")){
-                myALU.POP(checkRegister(codeLine.get(1)), codeLine.get(2));
+                myALU.POP(determineRegister(codeLine.get(1)));
                 ++problemCounter;
             }
+            /*
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("AND")){
                 myALU.AND(checkRegister(codeLine.get(1)), codeLine.get(2));
@@ -156,6 +158,7 @@ public class CodeExecution {
             System.out.println("This is code line: "+codeLine);
         }*/
     }
+
 
     public static Register determineRegister(String registerName){
         if(registerName.equalsIgnoreCase("t0")){
