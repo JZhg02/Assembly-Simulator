@@ -1,4 +1,5 @@
-import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
 
 public class ALU {
 
@@ -20,7 +21,7 @@ public class ALU {
     }
 
     public boolean isRegister(String s) {
-        if (s.equals("t0") || s.equals("t1") || s.equals("t2") || s.equals("t3")) {
+        if (s.equalsIgnoreCase("t0") || s.equalsIgnoreCase("t1") || s.equalsIgnoreCase("t2") || s.equalsIgnoreCase("t3")) {
             return true;
         }
         return false;
@@ -50,20 +51,20 @@ public class ALU {
         return registerName;
     }
 
-    public HashMap<String, Integer> STR(String VariableName, String ValueName) throws Exception {
+    public void STR(String VariableName, String ValueName) throws Exception {
         if (isRegister(ValueName)) {
+            ValueName = String.valueOf(new Register());
             Memory.dataMap.put(VariableName, Integer.valueOf(ValueName));
         } else {
-            int index = Integer.parseInt(ValueName);
+            int index = Memory.dataMap.get(ValueName);
             Memory.dataMap.put(VariableName, index);
         }
-        return Memory.dataMap;
     }
 
     public void PUSH(String ValueName) throws Exception {
         if (((isRegister(ValueName)) || (isVariable(ValueName))) || (ValueName.charAt(0) >= '0' && ValueName.charAt(0) <= '9')) {
-            int Int = Integer.valueOf(ValueName);
-            MyStack.push(Int);
+            int index = Memory.dataMap.get(ValueName);
+            MyStack.push(index);
         }
     }
 
@@ -75,173 +76,396 @@ public class ALU {
 
 
 
-    public void AND(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) & Integer.parseInt(String.valueOf(ValueName), 2));
-            RegisterName.setRegister(t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) & Memory.dataMap.get(ValueName));
-            RegisterName.setRegister(t);
+    public void AND(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) & Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) & Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
         } else {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) & Integer.parseInt(ValueName));
-            RegisterName.setRegister( t);
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) & Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
-    public void OR(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) | Integer.parseInt(String.valueOf(ValueName), 2));
-            RegisterName.setRegister(t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) | Memory.dataMap.get(ValueName));
-            RegisterName.setRegister(t);
+    public void OR(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) | Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) | Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
         } else {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) | Integer.parseInt(ValueName));
-            RegisterName.setRegister( t);
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) | Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
-    public void NOT(Register RegisterName) throws Exception {
-        char[] t = int2binary(~Integer.parseInt(String.valueOf(RegisterName), 2));
-        RegisterName.setRegister(t);
+    public void NOT(Register registerName) throws Exception {
+        char[] t = int2binary(~Memory.dataMap.get(String.valueOf(registerName)));
+        registerName.setRegister(t);
     }
 
-    public void ADD(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) + Integer.parseInt(String.valueOf(ValueName), 2));
-            RegisterName.setRegister(t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) + Memory.dataMap.get(ValueName));
-            RegisterName.setRegister(t);
+    public void ADD(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) + Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) + Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
         } else {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) + Integer.parseInt(ValueName));
-            RegisterName.setRegister( t);
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) + Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
-    public void SUB(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) - Integer.parseInt(String.valueOf(ValueName), 2));
-            RegisterName.setRegister(t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) - Memory.dataMap.get(ValueName));
-            RegisterName.setRegister(t);
+    public void SUB(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) - Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) - Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
         } else {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) - Integer.parseInt(ValueName));
-            RegisterName.setRegister( t);
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) - Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
 
-    public void DIV(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) / Integer.parseInt(String.valueOf(ValueName), 2));
-            RegisterName.setRegister(t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) / Memory.dataMap.get(ValueName));
-            RegisterName.setRegister(t);
+    public void DIV(Register registerName, String valueName) throws Exception {
+        if(isRegister(valueName)) {
+            valueName = String.valueOf(new Register());
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) / Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
+        } else if(isVariable(valueName)) {
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) / Memory.dataMap.get(valueName));
+            registerName.setRegister(t);
         } else {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) / Integer.parseInt(ValueName));
-            RegisterName.setRegister( t);
+            char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) / Integer.parseInt(valueName));
+            registerName.setRegister(t);
         }
     }
 
-    public void MUL(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) * Integer.parseInt(String.valueOf(ValueName), 2));
-            RegisterName.setRegister(t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) * Memory.dataMap.get(ValueName));
-            RegisterName.setRegister(t);
-        } else {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) * Integer.parseInt(ValueName));
-            RegisterName.setRegister( t);
+   public void MUL(Register registerName, String valueName) throws Exception {
+       if (isRegister(valueName)) {
+           valueName = String.valueOf(new Register());
+           char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) * Memory.dataMap.get(valueName));
+           registerName.setRegister(t);
+       } else if (isVariable(valueName)) {
+           char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) * Memory.dataMap.get(valueName));
+           registerName.setRegister(t);
+       } else {
+           char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) * Integer.parseInt(valueName));
+           registerName.setRegister(t);
+       }
+   }
+
+   public void MOD(Register registerName, String valueName) throws Exception {
+       if (isRegister(valueName)) {
+           valueName = String.valueOf(new Register());
+           char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) % Memory.dataMap.get(valueName));
+           registerName.setRegister(t);
+       } else if (isVariable(valueName)) {
+           char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) % Memory.dataMap.get(valueName));
+           registerName.setRegister(t);
+       } else {
+           char[] t = int2binary(Memory.dataMap.get(String.valueOf(registerName)) % Integer.parseInt(valueName));
+           registerName.setRegister(t);
+       }
+   }
+   public void INC(Register RegisterName) throws Exception {
+       char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) + 1);
+       RegisterName.setRegister(t);
+   }
+   public void DEC(Register RegisterName) throws Exception {
+       char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) - 1);
+       RegisterName.setRegister(t);
+   }
+
+   public void BEQ(String firstParam, String secondParam, String LABEL) {
+       int firstValue;
+       int secondValue;
+       // If 1st param is a register
+       if (isRegister(firstParam)) {
+           firstValue = CodeExecution.determineRegister(firstParam).getDecimalValue();
+           // If 2nd param is also a register
+           if (isRegister(secondParam)) {
+               secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+               if (firstValue == secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // If 2nd param is a variable
+           else if (isVariable(secondParam)) {
+               secondValue = Memory.dataMap.get(secondParam);
+               if (firstValue == secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // Then this means that 2nd param is for sure a constant
+           else if (firstValue == Integer.parseInt(secondParam)) {
+               JMP(LABEL);
+           }
+       }// If 1st param is a variable
+       else if (isVariable(firstParam)) {
+           firstValue = Memory.dataMap.get(firstParam);
+           // If 2nd param is a register
+           if (isRegister(secondParam)) {
+               secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+               if (firstValue == secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // If 2nd param is also a variable
+           else if (isVariable(secondParam)) {
+               secondValue = Memory.dataMap.get(secondParam);
+               if (firstValue == secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // 2nd param is for sure a constant
+           else if (firstValue == Integer.parseInt(secondParam)) {
+               JMP(LABEL);
+           }
+       }
+       // 1st param is a constant
+       else {
+           firstValue = Integer.parseInt(firstParam);
+           // 2nd param is a register
+           if (isRegister(secondParam)) {
+               secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+               if (firstValue == secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // 2nd param is a variable
+           else if (isVariable(secondParam)) {
+               secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+               if (firstValue == secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // 2nd param is forcibly also a constant
+           else if (firstValue == Integer.parseInt(secondParam)) {
+               JMP(LABEL);
+           }
+       }
+   }
+
+   public void BNE(String firstParam, String secondParam, String LABEL) {
+       int firstValue;
+       int secondValue;
+       // If 1st param is a register
+       if (isRegister(firstParam)) {
+           firstValue = CodeExecution.determineRegister(firstParam).getDecimalValue();
+           // If 2nd param is also a register
+           if (isRegister(secondParam)) {
+               secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+               if (firstValue != secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // If 2nd param is a variable
+           else if (isVariable(secondParam)) {
+               secondValue = Memory.dataMap.get(secondParam);
+               if (firstValue != secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // Then this means that 2nd param is for sure a constant
+           else if (firstValue != Integer.parseInt(secondParam)) {
+               JMP(LABEL);
+           }
+       }
+       // If 1st param is a variable
+       else if (isVariable(firstParam)) {
+           firstValue = Memory.dataMap.get(firstParam);
+           // If 2nd param is a register
+           if (isRegister(secondParam)) {
+               secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+               if (firstValue != secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // If 2nd param is also a variable
+           else if (isVariable(secondParam)) {
+               secondValue = Memory.dataMap.get(secondParam);
+               if (firstValue != secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // 2nd param is for sure a constant
+           else if (firstValue != Integer.parseInt(secondParam)) {
+               JMP(LABEL);
+           }
+       }
+       // 1st param is a constant
+       else {
+           firstValue = Integer.parseInt(firstParam);
+           // 2nd param is a register
+           if (isRegister(secondParam)) {
+               secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+               if (firstValue != secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // 2nd param is a variable
+           else if (isVariable(secondParam)) {
+               secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+               if (firstValue != secondValue) {
+                   JMP(LABEL);
+               }
+           }
+           // 2nd param is forcibly also a constant
+           else if (firstValue != Integer.parseInt(secondParam)) {
+               JMP(LABEL);
+           }
+       }
+   }
+
+    public void BBG(String firstParam, String secondParam, String LABEL){
+        int firstValue;
+        int secondValue;
+        // If 1st param is a register
+        if(isRegister(firstParam)) {
+            firstValue = CodeExecution.determineRegister(firstParam).getDecimalValue();
+            // If 2nd param is also a register
+            if(isRegister(secondParam)){
+                secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+                if(firstValue > secondValue){
+                    JMP(LABEL);
+                }
+            }
+            // If 2nd param is a variable
+            else if (isVariable(secondParam)){
+                secondValue = Memory.dataMap.get(secondParam);
+                if(firstValue > secondValue){
+                    JMP(LABEL);
+                }
+            }
+            // Then this means that 2nd param is for sure a constant
+            else if (firstValue > Integer.parseInt(secondParam)){
+                JMP(LABEL);
+            }
+        }
+        // If 1st param is a variable
+        else if (isVariable(firstParam)) {
+            firstValue = Memory.dataMap.get(firstParam);
+            // If 2nd param is a register
+            if(isRegister(secondParam)){
+                secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+                if(firstValue > secondValue){
+                    JMP(LABEL);
+                }
+            }
+            // If 2nd param is also a variable
+            else if (isVariable(secondParam)){
+                secondValue = Memory.dataMap.get(secondParam);
+                if(firstValue > secondValue){
+                    JMP(LABEL);
+                }
+            }
+            // 2nd param is for sure a constant
+            else if (firstValue > Integer.parseInt(secondParam)){
+                JMP(LABEL);
+            }
+        }
+        // 1st param is a constant
+        else {
+            firstValue = Integer.parseInt(firstParam);
+            // 2nd param is a register
+            if(isRegister(secondParam)){
+                secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+                if(firstValue > secondValue){
+                    JMP(LABEL);
+                }
+            }
+            // 2nd param is a variable
+            else if(isVariable(secondParam)){
+                secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+                if(firstValue > secondValue){
+                    JMP(LABEL);
+                }
+            }
+            // 2nd param is forcibly also a constant
+            else if(firstValue > Integer.parseInt(secondParam)){
+                JMP(LABEL);
+            }
         }
     }
 
-    public void MOD(Register RegisterName, String ValueName) throws Exception {
-        if(isRegister(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) % Integer.parseInt(String.valueOf(ValueName), 2));
-            RegisterName.setRegister(t);
-        } else if (isVariable(ValueName)) {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) % Memory.dataMap.get(ValueName));
-            RegisterName.setRegister(t);
-        } else {
-            char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) % Integer.parseInt(ValueName));
-            RegisterName.setRegister( t);
-        }
-    }
-
-
-    public void INC(Register RegisterName) throws Exception {
-        char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) + 1);
-        RegisterName.setRegister(t);
-    }
-    public void DEC(Register RegisterName) throws Exception {
-        char[] t = int2binary(Integer.parseInt(String.valueOf(RegisterName), 2) - 1);
-        RegisterName.setRegister( t);
-    }
-/*
-
-    public void BEQ(Register RegisterName, String ValueName, String LABEL) throws Exception {
-        if(isRegister(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) == Integer.parseInt(ValueName, 2)) {
-                JMP(LABEL);
+    public void BSM(String firstParam, String secondParam, String LABEL){
+        int firstValue;
+        int secondValue;
+        // If 1st param is a register
+        if(isRegister(firstParam)) {
+            firstValue = CodeExecution.determineRegister(firstParam).getDecimalValue();
+            // If 2nd param is also a register
+            if(isRegister(secondParam)){
+                secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+                if(firstValue < secondValue){
+                    JMP(LABEL);
+                }
             }
-        } else if (isConstant(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) == Integer.parseInt(ValueName, 2)) {
-                JMP(LABEL);
+            // If 2nd param is a variable
+            else if (isVariable(secondParam)){
+                secondValue = Memory.dataMap.get(secondParam);
+                if(firstValue < secondValue){
+                    JMP(LABEL);
+                }
             }
-        } else if (isVariable(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) == Memory.dataMap.get(ValueName)) {
+            // Then this means that 2nd param is for sure a constant
+            else if (firstValue < Integer.parseInt(secondParam)){
                 JMP(LABEL);
             }
         }
-    }
-
-    public void BNE(Register RegisterName, String ValueName, String LABEL) throws Exception {
-        if(isRegister(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) != Integer.parseInt(ValueName, 2)) {
-                JMP(LABEL);
+        // If 1st param is a variable
+        else if (isVariable(firstParam)) {
+            firstValue = Memory.dataMap.get(firstParam);
+            // If 2nd param is a register
+            if(isRegister(secondParam)){
+                secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+                if(firstValue < secondValue){
+                    JMP(LABEL);
+                }
             }
-        } else if (isConstant(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) != Integer.parseInt(ValueName, 2)) {
-                JMP(LABEL);
+            // If 2nd param is also a variable
+            else if (isVariable(secondParam)){
+                secondValue = Memory.dataMap.get(secondParam);
+                if(firstValue < secondValue){
+                    JMP(LABEL);
+                }
             }
-        } else if (isVariable(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) != Memory.dataMap.get(ValueName)) {
-                JMP(LABEL);
-            }
-        }
-    }
-
-    public void BBG(Register RegisterName, String ValueName, String LABEL) throws Exception {
-        if(isRegister(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) > Integer.parseInt(ValueName, 2)) {
-                JMP(LABEL);
-            }
-        } else if (isConstant(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) > Integer.parseInt(ValueName, 2)) {
-                JMP(LABEL);
-            }
-        } else if (isVariable(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) > Memory.dataMap.get(ValueName)) {
+            // 2nd param is for sure a constant
+            else if (firstValue < Integer.parseInt(secondParam)){
                 JMP(LABEL);
             }
         }
-    }
-
-    public void BSM(Register RegisterName, String ValueName, String LABEL) throws Exception {
-        if(isRegister(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) < Integer.parseInt(ValueName, 2)) {
-                JMP(LABEL);
+        // 1st param is a constant
+        else {
+            firstValue = Integer.parseInt(firstParam);
+            // 2nd param is a register
+            if(isRegister(secondParam)){
+                secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+                if(firstValue < secondValue){
+                    JMP(LABEL);
+                }
             }
-        } else if (isConstant(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) < Integer.parseInt(ValueName, 2)) {
-                JMP(LABEL);
+            // 2nd param is a variable
+            else if(isVariable(secondParam)){
+                secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
+                if(firstValue < secondValue){
+                    JMP(LABEL);
+                }
             }
-        } else if (isVariable(ValueName)) {
-            if(Integer.parseInt(String.valueOf(RegisterName), 2) < Memory.dataMap.get(ValueName)) {
+            // 2nd param is forcibly also a constant
+            else if(firstValue < Integer.parseInt(secondParam)){
                 JMP(LABEL);
             }
         }
@@ -255,5 +479,5 @@ public class ALU {
             }
         }
     }
-*/
+
 }
