@@ -32,7 +32,7 @@ public class Main {
         System.out.println("Register: "+register);
         */
 
-        /*ALU myALU = new ALU();
+        ALU myALU = new ALU();
         Register t0 = new Register();
         Register t1 = new Register();
         Register t2 = new Register();
@@ -44,9 +44,38 @@ public class Main {
         System.out.println("Printing dec value of t0: " +t0.getDecimalValue());
 
         CodeExecution myCode = new CodeExecution();
-        myCode.executeCode();*/
+        myCode.executeCode();
 
-        ALU myALU = new ALU();
-        System.out.println(myALU.TEST("3"));
+
+        MyStack myStack = new MyStack();
+        System.out.println("Stack: "+myStack);
+
+
+        String valueName = "10";
+        myALU.LDA(t0, valueName);
+        System.out.println("Printing t0: " +t0);;
+        String cont = "3";
+        String var = "memoire";
+        System.out.println(myALU.STR(var, cont));
+        myALU.PUSH(String.valueOf(t0));
+        System.out.println("Mystack: "+myStack);
+        myALU.ADD(t0,valueName);
+        System.out.println("Printing t0: " +t0);
+        myALU.POP(t0);
+        System.out.println("Stack: "+myStack);
+        System.out.println("Printing t0: " +t0);
+        myALU.AND(t0, valueName);
+        System.out.println("Printing t0: " +t0);
+        myALU.OR(t0, valueName);
+        System.out.println("Printing t0: " +t0);
+        myALU.NOT(t0);
+        System.out.println("Printing t0: " +t0);
+        myALU.SUB(t0, valueName);
+        System.out.println("Printing t0: " +t0);
+        myALU.MUL(t0, valueName);
+        System.out.println("Printing t0: " +t0);
+        myALU.DIV(t0, valueName);
+        System.out.println("Printing t0: " +t0);
+        myALU.MOD(t0, valueName);
     }
 }
