@@ -50,8 +50,8 @@ public class ALU {
 
     public void STR(String VariableName, String ValueName) throws Exception {
         if (isRegister(ValueName)) {
-            int index = Integer.parseInt(ValueName);
-            Memory.dataMap.put(VariableName, index);
+            ValueName = String.valueOf(new Register());
+            Memory.dataMap.put(VariableName, Integer.valueOf(ValueName));
         } else {
             int index = Memory.dataMap.get(ValueName);
             Memory.dataMap.put(VariableName, index);
