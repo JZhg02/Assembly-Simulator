@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class CodeExecution {
 
-    int problemCounter = 1;
+    static int problemCounter = 1;
     ArrayList<String> codeLine;
     ALU myALU = new ALU();
     Register t0 = new Register();
@@ -25,6 +25,7 @@ public class CodeExecution {
             // Get the line of code at line problemCounter;
             codeLine = Memory.instructionsMap.get(problemCounter);
             System.out.println(Memory.instructionsMap.get(problemCounter));
+            System.out.println("PC: "+ problemCounter);
 
             // Done
             if(codeLine.get(0).equalsIgnoreCase("LDA")){
@@ -118,7 +119,8 @@ public class CodeExecution {
             }*/
 
             else if(codeLine.get(0).equalsIgnoreCase("JMP")){
-                myALU.JMP(codeLine.get(1) , problemCounter);
+                myALU.JMP(codeLine.get(1));
+                System.out.println(problemCounter);
             }
             /*
             else if(codeLine.get(0).equalsIgnoreCase("SRL")){

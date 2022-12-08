@@ -249,10 +249,10 @@ public class ALU {
         }
     }*/
 
-    public void JMP(String label, int problemCounter) throws Exception {
+    public void JMP(String label){
         for(Map.Entry<Integer, ArrayList<String>> set : Memory.instructionsMap.entrySet()){
-            if(set.getValue().equals(label)){
-                problemCounter = set.getKey();
+            if(set.getValue().get(0).equals(label)){
+                CodeExecution.problemCounter = set.getKey();
                 break;
             }
         }
