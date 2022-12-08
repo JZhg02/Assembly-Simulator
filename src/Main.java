@@ -33,10 +33,6 @@ public class Main {
         */
 
         /*ALU myALU = new ALU();
-        Register t0 = new Register();
-        Register t1 = new Register();
-        Register t2 = new Register();
-        Register t3 = new Register();
 
         System.out.println(myALU.int2binary(35));
         System.out.println("Test trying to add 10 to t0: "+ myALU.LDA(t0, "10"));
@@ -46,7 +42,7 @@ public class Main {
         CodeExecution myCode = new CodeExecution();
         myCode.executeCode();*/
 
-        ALU myALU = new ALU();
-        System.out.println(myALU.TEST("3"));
+        CodeExecution myCode = new CodeExecution();
+        myCode.executeCode();
     }
 }

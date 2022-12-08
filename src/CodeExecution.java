@@ -8,10 +8,10 @@ public class CodeExecution {
     static int problemCounter = 1;
     ArrayList<String> codeLine;
     ALU myALU = new ALU();
-    Register t0 = new Register();
-    Register t1 = new Register();
-    Register t2 = new Register();
-    Register t3 = new Register();
+    static Register t0 = new Register();
+    static Register t1 = new Register();
+    static Register t2 = new Register();
+    static Register t3 = new Register();
 
     public void executeCode() throws Exception {
 
@@ -29,7 +29,7 @@ public class CodeExecution {
 
             // Done
             if(codeLine.get(0).equalsIgnoreCase("LDA")){
-                myALU.LDA(checkRegister(codeLine.get(1)), codeLine.get(2));
+                myALU.LDA(determineRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
             /*
@@ -97,32 +97,33 @@ public class CodeExecution {
             else if(codeLine.get(0).equalsIgnoreCase("DEC")){
                 myALU.DEC(checkRegister(codeLine.get(1)));
                 ++problemCounter;
-            }
+            }*/
 
             // To be fixed
             // Instructions that needs jumps
             else if(codeLine.get(0).equalsIgnoreCase("BEQ")){
-                // We could change the problemCounter here or make the function in ALU return a number directly
-                // I think the latter is better just to have all "computations" done in ALU.
+                myALU.BEQ(codeLine.get(1), codeLine.get(2), codeLine.get(3));
+                ++problemCounter;
             }
 
             else if(codeLine.get(0).equalsIgnoreCase("BNE")){
-
+                myALU.BNE(codeLine.get(1), codeLine.get(2), codeLine.get(3));
+                ++problemCounter;
             }
 
             else if(codeLine.get(0).equalsIgnoreCase("BBG")){
-
+                myALU.BBG(codeLine.get(1), codeLine.get(2), codeLine.get(3));
+                ++problemCounter;
             }
 
             else if(codeLine.get(0).equalsIgnoreCase("BSM")){
+                myALU.BSM(codeLine.get(1), codeLine.get(2), codeLine.get(3));
+                ++problemCounter;
+            }
 
-            }*/
-
-            /*
             else if(codeLine.get(0).equalsIgnoreCase("JMP")){
                 myALU.JMP(codeLine.get(1));
-                System.out.println(problemCounter);
-            }*/
+            }
             /*
             else if(codeLine.get(0).equalsIgnoreCase("SRL")){
 
@@ -156,15 +157,15 @@ public class CodeExecution {
         }*/
     }
 
-    public Register checkRegister(String registerName){
-        if(registerName.equals("t0")){
-            return this.t0;
-        } else if (registerName.equals("t1")){
-            return this.t1;
-        } else if (registerName.equals("t2")){
-            return this.t2;
+    public static Register determineRegister(String registerName){
+        if(registerName.equalsIgnoreCase("t0")){
+            return t0;
+        } else if (registerName.equalsIgnoreCase("t1")){
+            return t1;
+        } else if (registerName.equalsIgnoreCase("t2")){
+            return t2;
         } else {
-            return this.t3;
+            return t3;
         }
     }
 
