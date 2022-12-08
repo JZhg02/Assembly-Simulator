@@ -1,7 +1,5 @@
-import java.util.ArrayList;
-import java.util.Map;
-
 public class ALU {
+
 
     public char[] int2binary(int decimal) throws Exception {
 
@@ -61,19 +59,20 @@ public class ALU {
     }
 
     public void PUSH(String ValueName) throws Exception {
-        if (isRegister(ValueName)) {
-           MyStack.push(Integer.parseInt(ValueName));
-        }
-        } else if (isVariable(ValueName)) {
-            MyStack.push(Memory.dataMap.get(ValueName));
+        if (((isRegister(ValueName)) || (isVariable(ValueName))) || (ValueName.charAt(0) >= '0' && ValueName.charAt(0) <= '9')) {
+            int index = Memory.dataMap.get(ValueName);
+            MyStack.push(index);
         }
     }
 
     public void POP(Register register) throws Exception {
-        char[] t = int2char(Memory.dataMap.get("sp"));
-        Memory.dataMap.put("sp", Memory.dataMap.get("sp") + 1);
-        //t0.setRegisters(String.valueOf(register), t);
+        int index = MyStack.pop();
+        char[] binary = int2binary(Integer.parseInt(String.valueOf(index)));
+        register.setRegister(binary);
     }
+
+
+
 
     public void AND(Register RegisterName, String ValueName) throws Exception {
         if(isRegister(ValueName)) {
