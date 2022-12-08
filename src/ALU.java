@@ -144,10 +144,13 @@ public class ALU {
     public void DIV(Register registerName, String valueName) throws Exception {
         if(isRegister(valueName)) {
             char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() / registerName.getDecimalValue());
+            registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
             char [] binary = int2binary(Memory.dataMap.get(valueName) / registerName.getDecimalValue());
+            registerName.setRegister(binary);
         } else {
             char [] binary = int2binary(Integer.parseInt(valueName) / registerName.getDecimalValue());
+            registerName.setRegister(binary);
         }
     }
 
@@ -178,12 +181,13 @@ public class ALU {
     }
 
    public void INC(Register registerName) throws Exception {
-       char[] t = int2binary(Integer.parseInt(String.valueOf(registerName), 2) + 1);
-       registerName.setRegister(t);
+       char [] binary = int2binary(registerName.getDecimalValue() + 1);
+       registerName.setRegister(binary);
    }
+
    public void DEC(Register registerName) throws Exception {
-       char[] t = int2binary(Integer.parseInt(String.valueOf(registerName), 2) - 1);
-       registerName.setRegister(t);
+       char [] binary = int2binary(registerName.getDecimalValue() - 1);
+       registerName.setRegister(binary);
    }
 
    public void BEQ(String firstParam, String secondParam, String LABEL) {

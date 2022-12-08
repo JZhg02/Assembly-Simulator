@@ -44,5 +44,7 @@ public class Main {
 
         CodeExecution myCode = new CodeExecution();
         myCode.executeCode();
+        MyStack myStack = new MyStack();
+        System.out.println(myStack);
     }
 }

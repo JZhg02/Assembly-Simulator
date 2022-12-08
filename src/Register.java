@@ -22,14 +22,6 @@ public class Register {
         return(Integer.parseInt(String.valueOf(this.value), 2));
     }
 
-    public String getBinary(int index) {
-        return Integer.toBinaryString(this.value[index]);
-    }
-
-    public String getHex(int index) {
-        return Integer.toHexString(this.value[index]);
-    }
-
     @Override
     public String toString(){
         StringBuilder str = new StringBuilder("");

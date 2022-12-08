@@ -21,7 +21,7 @@ public class FileParser {
         // Load the file
         FileInputStream stream = null;
         try {
-            stream = new FileInputStream("src/MyFiles/file1");
+            stream = new FileInputStream("src/MyFiles/file2");
         } catch (FileNotFoundException fnfe){
             fnfe.printStackTrace();
         }

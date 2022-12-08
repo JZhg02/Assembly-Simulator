@@ -49,57 +49,57 @@ public class CodeExecution {
                 myALU.POP(determineRegister(codeLine.get(1)));
                 ++problemCounter;
             }
-            /*
+
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("AND")){
-                myALU.AND(checkRegister(codeLine.get(1)), codeLine.get(2));
+                myALU.AND(determineRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("OR")){
-                myALU.OR(checkRegister(codeLine.get(1)), codeLine.get(2));
+                myALU.OR(determineRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("NOT")){
-                myALU.NOT(checkRegister(codeLine.get(1)), codeLine.get(2));
+                myALU.NOT(determineRegister(codeLine.get(1)));
                 ++problemCounter;
             }
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("ADD")){
-                myALU.ADD(checkRegister(codeLine.get(1)), codeLine.get(2));
+                myALU.ADD(determineRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("SUB")){
-                myALU.SUB(checkRegister(codeLine.get(1)), codeLine.get(2));
+                myALU.SUB(determineRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("DIV")){
-                myALU.DIV(checkRegister(codeLine.get(1)), codeLine.get(2));
+                myALU.DIV(determineRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("MUL")){
-                myALU.MUL(checkRegister(codeLine.get(1)), codeLine.get(2));
+                myALU.MUL(determineRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("MOD")){
-                myALU.MOD(checkRegister(codeLine.get(1)), codeLine.get(2));
+                myALU.MOD(determineRegister(codeLine.get(1)), codeLine.get(2));
                 ++problemCounter;
             }
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("INC")){
-                myALU.INC(checkRegister(codeLine.get(1)));
+                myALU.INC(determineRegister(codeLine.get(1)));
                 ++problemCounter;
             }
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("DEC")){
-                myALU.DEC(checkRegister(codeLine.get(1)));
+                myALU.DEC(determineRegister(codeLine.get(1)));
                 ++problemCounter;
-            }*/
+            }
 
             // To be fixed
             // Instructions that needs jumps
