@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class FileParser {
@@ -21,7 +20,7 @@ public class FileParser {
         // Load the file
         FileInputStream stream = null;
         try {
-            stream = new FileInputStream("src/MyFiles/file1");
+            stream = new FileInputStream("src/MyFiles/file7");
         } catch (FileNotFoundException fnfe){
             fnfe.printStackTrace();
         }
@@ -102,10 +101,19 @@ public class FileParser {
 
     // Hash/Map data correctly
     public void getData(){
+        // Will serve as address
+        int dataAddress = 0;
         for(String dataLine : dataLines){
+            ++dataAddress;
+            ArrayList<String> data = new ArrayList<>();
             // Splits the line in 2 when it encounters the first whitespace
             String[] arrOfStr = dataLine.split(" ", 2);
-            Memory.dataMap.put(arrOfStr[0], Integer.valueOf(arrOfStr[1]));
+            for(int i=0; i<2; i++){
+                data.add(arrOfStr[i]);
+            }
+            for(int i=0; i<dataAddress; i++){
+                Memory.dataMap.put(dataAddress, data);
+            }
         }
     }
 
@@ -117,12 +125,12 @@ public class FileParser {
         boolean spaceIsPresent = false;
 
         // Might need to go static in a Memory class ? Dunno...
-        int problemCounter = 0;
+        int instructionAddress = 0;
 
         for(String instructionsLine : instructionsLines){
 
             // Map Starting at value 1, maybe might need to move it to 0? Dunno
-            ++problemCounter;
+            ++instructionAddress;
 
             // Values (reg, var, const) for the instructions
             ArrayList<String> values = new ArrayList<>();
@@ -141,13 +149,13 @@ public class FileParser {
                 for(int i=0; i<whitespaceCounter+1; i++){
                     values.add(arrOfStr[i]);
                 }
-                Memory.instructionsMap.put(problemCounter, values);
+                Memory.instructionsMap.put(instructionAddress, values);
                 // Resets
                 whitespaceCounter = 0;
                 spaceIsPresent = false;
             } else {
                 values.add(instructionsLine);
-                Memory.instructionsMap.put(problemCounter, values);
+                Memory.instructionsMap.put(instructionAddress, values);
             }
         }
     }

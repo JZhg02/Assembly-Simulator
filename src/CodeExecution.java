@@ -1,7 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class CodeExecution {
 
@@ -24,8 +21,7 @@ public class CodeExecution {
 
             // Get the line of code at line problemCounter;
             codeLine = Memory.instructionsMap.get(problemCounter);
-            System.out.println(Memory.instructionsMap.get(problemCounter));
-            System.out.println("PC: "+ problemCounter);
+            System.out.println("PC: "+ problemCounter+" | "+Memory.instructionsMap.get(problemCounter));
 
             // Done
             if(codeLine.get(0).equalsIgnoreCase("LDA")){
@@ -126,14 +122,14 @@ public class CodeExecution {
             else if(codeLine.get(0).equalsIgnoreCase("JMP")){
                 myALU.JMP(codeLine.get(1));
             }
-            /*
-            else if(codeLine.get(0).equalsIgnoreCase("SRL")){
 
+            else if(codeLine.get(0).equalsIgnoreCase("SRL")){
+                myALU.SRL(determineRegister(codeLine.get(1)), codeLine.get(2));
             }
 
-            else if(codeLine.get(0).equalsIgnoreCase("SSR")){
-
-            }*/
+            else if(codeLine.get(0).equalsIgnoreCase("SRR")){
+                myALU.SRR(determineRegister(codeLine.get(1)), codeLine.get(2));
+            }
 
             else if(codeLine.get(0).equalsIgnoreCase("HLT")){
                 myHLT = true;

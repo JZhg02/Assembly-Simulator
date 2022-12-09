@@ -10,7 +10,7 @@ public class ALU {
         // Convert int bb to 0,1 char[]
         char[] binary = (Integer.toString(decimal, 2)).toCharArray();
 
-        // Overflow condition, 32 is max legnth
+        // Overflow condition, 32 is max length
         if (binary.length > 32)
             throw new Exception("Overflow");
 
@@ -41,8 +41,9 @@ public class ALU {
             char[] binary = int2binary(index);
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
-            int index = Memory.dataMap.get(valueName);
-            char[] binary = int2binary(index);
+            // int index = Memory.dataMap.get(valueName);
+            int index = determineVariableIndex(valueName);
+            char[] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)));
             registerName.setRegister(binary);
         } else {
             int index = Integer.parseInt(valueName);
@@ -55,9 +56,13 @@ public class ALU {
     public void STR(String variableName, String valueName){
         if (isRegister(valueName)) {
             int integerValue = CodeExecution.determineRegister(valueName).getDecimalValue();
-            Memory.dataMap.put(variableName, integerValue);
+            //Memory.dataMap.put(variableName, integerValue);
+            int index = determineVariableIndex(variableName);
+            Memory.dataMap.get(index).set(1, String.valueOf(integerValue));
         } else {
-            Memory.dataMap.put(variableName, Integer.parseInt(valueName));
+            //Memory.dataMap.put(variableName, Integer.parseInt(valueName));
+            int index = determineVariableIndex(variableName);
+            Memory.dataMap.get(index).set(1, valueName);
         }
     }
 
@@ -66,7 +71,9 @@ public class ALU {
             int integerValue = CodeExecution.determineRegister(valueName).getDecimalValue();
             MyStack.push(integerValue);
         } else if(isVariable(valueName)) {
-            int integerValue = Memory.dataMap.get(valueName);
+            // int integerValue = Memory.dataMap.get(valueName);
+            int index = determineVariableIndex(valueName);
+            int integerValue = Integer.parseInt(Memory.dataMap.get(index).get(1));
             MyStack.push(integerValue);
         } else {
             int integerValue = Integer.parseInt(valueName);
@@ -87,7 +94,9 @@ public class ALU {
             char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() & registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
-            char [] binary = int2binary(Memory.dataMap.get(valueName) & registerName.getDecimalValue());
+            // char [] binary = int2binary(Memory.dataMap.get(valueName) & registerName.getDecimalValue());
+            int index = determineVariableIndex(valueName);
+            char [] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)) & registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else {
             char [] binary = int2binary(Integer.parseInt(valueName) & registerName.getDecimalValue());
@@ -100,7 +109,9 @@ public class ALU {
             char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() | registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
-            char [] binary = int2binary(Memory.dataMap.get(valueName) | registerName.getDecimalValue());
+            int index = determineVariableIndex(valueName);
+            // char [] binary = int2binary(Memory.dataMap.get(valueName) | registerName.getDecimalValue());
+            char [] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)) | registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else {
             char [] binary = int2binary(Integer.parseInt(valueName) | registerName.getDecimalValue());
@@ -119,7 +130,8 @@ public class ALU {
             char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() + registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
-            char [] binary = int2binary(Memory.dataMap.get(valueName) + registerName.getDecimalValue());
+            int index = determineVariableIndex(valueName);
+            char [] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)) + registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else {
             char [] binary = int2binary(Integer.parseInt(valueName) + registerName.getDecimalValue());
@@ -133,7 +145,8 @@ public class ALU {
             char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() - registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
-            char [] binary = int2binary(Memory.dataMap.get(valueName) - registerName.getDecimalValue());
+            int index = determineVariableIndex(valueName);
+            char [] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)) - registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else {
             char [] binary = int2binary(Integer.parseInt(valueName) - registerName.getDecimalValue());
@@ -146,7 +159,8 @@ public class ALU {
             char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() / registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
-            char [] binary = int2binary(Memory.dataMap.get(valueName) / registerName.getDecimalValue());
+            int index = determineVariableIndex(valueName);
+            char [] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)) / registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else {
             char [] binary = int2binary(Integer.parseInt(valueName) / registerName.getDecimalValue());
@@ -159,7 +173,8 @@ public class ALU {
             char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() * registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
-            char [] binary = int2binary(Memory.dataMap.get(valueName) * registerName.getDecimalValue());
+            int index = determineVariableIndex(valueName);
+            char [] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)) * registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else {
             char [] binary = int2binary(Integer.parseInt(valueName) * registerName.getDecimalValue());
@@ -172,7 +187,8 @@ public class ALU {
             char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() % registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
-            char [] binary = int2binary(Memory.dataMap.get(valueName) % registerName.getDecimalValue());
+            int index = determineVariableIndex(valueName);
+            char [] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)) % registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else {
             char [] binary = int2binary(Integer.parseInt(valueName) % registerName.getDecimalValue());
@@ -185,7 +201,8 @@ public class ALU {
             char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() >> registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
-            char [] binary = int2binary(Memory.dataMap.get(valueName) >> registerName.getDecimalValue());
+            int index = determineVariableIndex(valueName);
+            char [] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)) >> registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else {
             char [] binary = int2binary(Integer.parseInt(valueName) >> registerName.getDecimalValue());
@@ -198,7 +215,8 @@ public class ALU {
             char [] binary = int2binary(CodeExecution.determineRegister(valueName).getDecimalValue() << registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
-            char [] binary = int2binary(Memory.dataMap.get(valueName) << registerName.getDecimalValue());
+            int index = determineVariableIndex(valueName);
+            char [] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)) << registerName.getDecimalValue());
             registerName.setRegister(binary);
         } else {
             char [] binary = int2binary(Integer.parseInt(valueName) << registerName.getDecimalValue());
@@ -234,7 +252,7 @@ public class ALU {
            }
            // If 2nd param is a variable
            else if (isVariable(secondParam)) {
-               secondValue = Memory.dataMap.get(secondParam);
+               secondValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(secondParam)).get(1));
                if (firstValue == secondValue) {
                    JMP(LABEL);
                }
@@ -245,7 +263,7 @@ public class ALU {
            }
        }// If 1st param is a variable
        else if (isVariable(firstParam)) {
-           firstValue = Memory.dataMap.get(firstParam);
+           firstValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(firstParam)).get(1));
            // If 2nd param is a register
            if (isRegister(secondParam)) {
                secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
@@ -255,7 +273,7 @@ public class ALU {
            }
            // If 2nd param is also a variable
            else if (isVariable(secondParam)) {
-               secondValue = Memory.dataMap.get(secondParam);
+               secondValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(secondParam)).get(1));
                if (firstValue == secondValue) {
                    JMP(LABEL);
                }
@@ -304,7 +322,7 @@ public class ALU {
            }
            // If 2nd param is a variable
            else if (isVariable(secondParam)) {
-               secondValue = Memory.dataMap.get(secondParam);
+               secondValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(secondParam)).get(1));
                if (firstValue != secondValue) {
                    JMP(LABEL);
                }
@@ -316,7 +334,7 @@ public class ALU {
        }
        // If 1st param is a variable
        else if (isVariable(firstParam)) {
-           firstValue = Memory.dataMap.get(firstParam);
+           firstValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(firstParam)).get(1));
            // If 2nd param is a register
            if (isRegister(secondParam)) {
                secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
@@ -326,7 +344,7 @@ public class ALU {
            }
            // If 2nd param is also a variable
            else if (isVariable(secondParam)) {
-               secondValue = Memory.dataMap.get(secondParam);
+               secondValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(secondParam)).get(1));
                if (firstValue != secondValue) {
                    JMP(LABEL);
                }
@@ -375,7 +393,7 @@ public class ALU {
             }
             // If 2nd param is a variable
             else if (isVariable(secondParam)){
-                secondValue = Memory.dataMap.get(secondParam);
+                secondValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(secondParam)).get(1));
                 if(firstValue > secondValue){
                     JMP(LABEL);
                 }
@@ -387,7 +405,7 @@ public class ALU {
         }
         // If 1st param is a variable
         else if (isVariable(firstParam)) {
-            firstValue = Memory.dataMap.get(firstParam);
+            firstValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(firstParam)).get(1));
             // If 2nd param is a register
             if(isRegister(secondParam)){
                 secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
@@ -397,7 +415,7 @@ public class ALU {
             }
             // If 2nd param is also a variable
             else if (isVariable(secondParam)){
-                secondValue = Memory.dataMap.get(secondParam);
+                secondValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(secondParam)).get(1));
                 if(firstValue > secondValue){
                     JMP(LABEL);
                 }
@@ -446,7 +464,7 @@ public class ALU {
             }
             // If 2nd param is a variable
             else if (isVariable(secondParam)){
-                secondValue = Memory.dataMap.get(secondParam);
+                secondValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(secondParam)).get(1));
                 if(firstValue < secondValue){
                     JMP(LABEL);
                 }
@@ -458,7 +476,7 @@ public class ALU {
         }
         // If 1st param is a variable
         else if (isVariable(firstParam)) {
-            firstValue = Memory.dataMap.get(firstParam);
+            firstValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(firstParam)).get(1));
             // If 2nd param is a register
             if(isRegister(secondParam)){
                 secondValue = CodeExecution.determineRegister(secondParam).getDecimalValue();
@@ -468,7 +486,7 @@ public class ALU {
             }
             // If 2nd param is also a variable
             else if (isVariable(secondParam)){
-                secondValue = Memory.dataMap.get(secondParam);
+                secondValue = Integer.parseInt(Memory.dataMap.get(determineVariableIndex(secondParam)).get(1));
                 if(firstValue < secondValue){
                     JMP(LABEL);
                 }
@@ -509,6 +527,16 @@ public class ALU {
                 break;
             }
         }
+    }
+
+    // Return the index of the array for which the variable corresponds to variableName
+    public int determineVariableIndex(String variableName){
+        for(Map.Entry<Integer, ArrayList<String>> entry : Memory.dataMap.entrySet()){
+            if(entry.getValue().get(0).equals(variableName)){
+                return entry.getKey();
+            }
+        }
+        return 0;
     }
 
 }
