@@ -13,6 +13,10 @@ public class Main {
         System.out.println("--------------------------------------------------------------------------------------------"+"\033[0m");
         char choice = ' ';
         do {
+
+            Memory memory = new Memory();
+            System.out.println(Memory.memory);
+
             int fileName = 0;
 
             FileParser myfile = null;
@@ -57,6 +61,10 @@ public class Main {
             System.out.println("Do you want to simulate a new file? Say"+"\033[1;32m" +
                     "Y(es)"+ "\033[0m"+" or " + "\033[1;91m" + "N(o): \n" + "\033[0m");
             choice = sc.next().charAt(0);
+            if(String.valueOf(choice).equalsIgnoreCase("y")){
+                CodeExecution.problemCounter = 1;
+                CodeExecution.programCounter = 1;
+            }
         }
         while (choice == 'Y' || choice == 'y');
         System.out.println("Thank you for using our program, goodbye!");

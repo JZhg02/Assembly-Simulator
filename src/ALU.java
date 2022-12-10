@@ -41,10 +41,24 @@ public class ALU {
             char[] binary = int2binary(index);
             registerName.setRegister(binary);
         } else if (isVariable(valueName)) {
-            // int index = Memory.dataMap.get(valueName);
-            int index = determineVariableIndex(valueName);
-            char[] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)));
-            registerName.setRegister(binary);
+            // If there is indirect addressing (var+2...)
+            if(checkIndirectAddress(valueName)){
+                // This is the 2 of var+2, or 5 of var+5
+                int plusAddressValue = getIndirectAddressValue(valueName);
+                int index = determineVariableIndex(valueName)+plusAddressValue;
+                if(index>Memory.dataMap.size()){
+                    char[] binary = int2binary(0);
+                    registerName.setRegister(binary);
+                } else {
+                    char[] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)));
+                    registerName.setRegister(binary);
+                }
+            } else {
+                // int index = Memory.dataMap.get(valueName);
+                int index = determineVariableIndex(valueName);
+                char[] binary = int2binary(Integer.parseInt(Memory.dataMap.get(index).get(1)));
+                registerName.setRegister(binary);
+            }
         } else {
             int index = Integer.parseInt(valueName);
             char[] binary = int2binary(index);
@@ -54,19 +68,37 @@ public class ALU {
     }
 
     public void STR(String variableName, String valueName){
-        if (isRegister(valueName)) {
-            int integerValue = CodeExecution.determineRegister(valueName).getDecimalValue();
-            //Memory.dataMap.put(variableName, integerValue);
-            int index = determineVariableIndex(variableName);
-            Memory.dataMap.get(index).set(1, String.valueOf(integerValue));
+        int strValue;
+        if(checkIndirectAddress(variableName)){
+            int plusAddressValue = getIndirectAddressValue(variableName);
+            int index = determineVariableIndex(variableName)+plusAddressValue;
+            // If index is greater than dataMap size, then variable doesn't exist, so we add this value
+            if(index>Memory.dataMap.size()){
+                strValue = 0;
+                Memory.dataMap.get(index).set(index, String.valueOf(strValue));
+            } else {
+                if (isRegister(valueName)) {
+                    int integerValue = CodeExecution.determineRegister(valueName).getDecimalValue();
+                    Memory.dataMap.get(index).set(1, String.valueOf(integerValue));
+                } else {
+                    Memory.dataMap.get(index).set(1, valueName);
+                }
+            }
         } else {
-            //Memory.dataMap.put(variableName, Integer.parseInt(valueName));
-            int index = determineVariableIndex(variableName);
-            Memory.dataMap.get(index).set(1, valueName);
+            if (isRegister(valueName)) {
+                int integerValue = CodeExecution.determineRegister(valueName).getDecimalValue();
+                //Memory.dataMap.put(variableName, integerValue);
+                int index = determineVariableIndex(variableName);
+                Memory.dataMap.get(index).set(1, String.valueOf(integerValue));
+            } else {
+                //Memory.dataMap.put(variableName, Integer.parseInt(valueName));
+                int index = determineVariableIndex(variableName);
+                Memory.dataMap.get(index).set(1, valueName);
+            }
         }
     }
 
-    public void PUSH(String valueName) throws Exception {
+    public void PUSH(String valueName){
         if(isRegister(valueName)){
             int integerValue = CodeExecution.determineRegister(valueName).getDecimalValue();
             MyStack.push(integerValue);
@@ -531,12 +563,50 @@ public class ALU {
 
     // Return the index of the array for which the variable corresponds to variableName
     public int determineVariableIndex(String variableName){
-        for(Map.Entry<Integer, ArrayList<String>> entry : Memory.dataMap.entrySet()){
-            if(entry.getValue().get(0).equals(variableName)){
-                return entry.getKey();
+        StringBuilder normalVarName = new StringBuilder("");
+        if(variableName.contains("+")){
+            int plusPosition = 0;
+            for(int i=0; i<variableName.length(); i++){
+                if(variableName.charAt(i) == '+'){
+                    plusPosition = i;
+                    break;
+                }
+            }
+            for(int i=0; i<plusPosition; i++){
+                normalVarName.append(variableName.charAt(i));
+            }
+            for(Map.Entry<Integer, ArrayList<String>> entry : Memory.dataMap.entrySet()){
+                if(entry.getValue().get(0).equals(normalVarName.toString())){
+                    return entry.getKey();
+                }
+            }
+        } else {
+            for(Map.Entry<Integer, ArrayList<String>> entry : Memory.dataMap.entrySet()){
+                if(entry.getValue().get(0).equals(variableName)){
+                    return entry.getKey();
+                }
             }
         }
         return 0;
     }
 
+    public boolean checkIndirectAddress(String variableName){
+        return variableName.contains("+");
+    }
+
+    // Gets the value of the plusAddress
+    public int getIndirectAddressValue(String variableName){
+        int plusPosition = 0;
+        for(int i=0; i<variableName.length(); i++){
+            if(variableName.charAt(i) == '+'){
+                plusPosition = i;
+                break;
+            }
+        }
+        StringBuilder value = new StringBuilder("");
+        for(int i=plusPosition+1; i<variableName.length(); i++){
+            value.append(variableName.charAt(i));
+        }
+        return Integer.parseInt(value.toString());
+    }
 }
