@@ -16,8 +16,9 @@ public class MyStack {
 
     @Override
     public String toString(){
+        System.out.println("\nThis is the stack with its elements: ");
         StringBuilder str = new StringBuilder("");
-        str.append("\nTop\n");
+        str.append("Top\n");
         Object[] arr = myStack.toArray();
         for (int i=arr.length-1; i>=0; i--){
             str.append(arr[i]+"\n");
@@ -25,5 +26,6 @@ public class MyStack {
         str.append("Bottom\n");
         return str.toString();
     }
+
 
 }

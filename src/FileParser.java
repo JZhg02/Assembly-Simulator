@@ -12,7 +12,12 @@ public class FileParser {
     // All the lines of instructions
     ArrayList<String> instructionsLines = new ArrayList<>();
 
-    FileParser(){};
+    int fileNumber;
+
+    FileParser(int fileNumber){
+        this.fileNumber=fileNumber;
+    };
+
 
     // Parse entire file
     public void getLines(){
@@ -20,7 +25,7 @@ public class FileParser {
         // Load the file
         FileInputStream stream = null;
         try {
-            stream = new FileInputStream("src/MyFiles/file7");
+            stream = new FileInputStream("src/MyFiles/file"+fileNumber);
         } catch (FileNotFoundException fnfe){
             fnfe.printStackTrace();
         }
