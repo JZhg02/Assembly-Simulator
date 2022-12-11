@@ -17,7 +17,7 @@ public class CodeExecution {
     static Register t2 = new Register();
     static Register t3 = new Register();
 
-    boolean stepByStep = true;
+    static boolean stepByStep = false;
 
     public void executeCode() throws Exception {
 

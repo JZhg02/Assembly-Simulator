@@ -41,6 +41,16 @@ public class Main {
                 }
             } while (fileName < 1 || fileName > 10);
 
+            System.out.println("STEP BY STEP MODE ? (y/n)");
+            String stepByStep = sc.next();
+
+            if (stepByStep.equals("y")) {
+                System.out.println("STEP BY STEP MODE ACTIVATED");
+                System.out.println("Press enter to continue");
+                System.in.read();
+                CodeExecution.stepByStep = true;
+            }
+
 
             myfile.getLines();
             myfile.getDataLines();
