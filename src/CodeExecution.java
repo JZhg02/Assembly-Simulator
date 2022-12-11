@@ -2,8 +2,11 @@ import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Stack;
 
 public class CodeExecution {
+    MyStack myStack = new MyStack();
 
     static int problemCounter = 1;
     static int programCounter = 1;
@@ -14,9 +17,15 @@ public class CodeExecution {
     static Register t2 = new Register();
     static Register t3 = new Register();
 
-    boolean stepByStep = false;
+    boolean stepByStep = true;
 
     public void executeCode() throws Exception {
+
+        System.out.println("\033[1;37m"+"\nMEMORY:"+"\033[0m");
+
+        for(int j = 1; j <= Memory.memory.get(1).size(); j++){
+            System.out.println("\033[0;36m"+Memory.instructionsMap.get(j).get(0) + ": " + Memory.instructionsMap.get(j)+"\033[0m");
+        }
 
         // Initialize the halt (HLT)
         boolean myHLT = false;
@@ -26,7 +35,7 @@ public class CodeExecution {
 
             // Get the line of code at line problemCounter;
             codeLine = Memory.instructionsMap.get(problemCounter);
-            System.out.println("PC: "+ programCounter+" | Code Line: "+problemCounter+" | "+Memory.instructionsMap.get(problemCounter));
+            System.out.println("\nPC: "+ programCounter+" | Code Line: "+problemCounter+" | "+Memory.instructionsMap.get(problemCounter));
 
             // Done
             if(codeLine.get(0).equalsIgnoreCase("LDA")){
@@ -251,6 +260,26 @@ public class CodeExecution {
     }
 
     private void enterInput() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Do you want to display the : " + "\033[0;36m" + "registers "+"\033[0m"+ "," + "\033[0;32m" + " variables " + "\033[0m" + "and" + "\033[0;33m" + " stack " + "\033[0m" + "content? (Y/N)");
+        String answer = sc.nextLine();
+        if(answer.equalsIgnoreCase("Y")){
+            System.out.println("\033[1;37m"+"\nREGISTERS:"+"\033[0m");
+            System.out.println("\033[0;36m"+"t0: " + t0.getDecimalValue());
+            System.out.println("t1: " + t1.getDecimalValue());
+            System.out.println("t2: " + t2.getDecimalValue());
+            System.out.println("t3: " + t3.getDecimalValue()+"\033[0m");
+
+
+            System.out.println("\033[1;37m"+"\n\nVARIABLES :" + "\033[0m" + "\033[0;32m" + Memory.memory.get(0) + "\033[0m");
+            System.out.println("So we have " + Memory.memory.get(0).size() + " variables who are:");
+            for(int i = 1; i <= Memory.memory.get(0).size(); i++){
+                System.out.println("\033[0;32m"+Memory.dataMap.get(i).get(0) +" : "+ Memory.dataMap.get(i).get(1)+ "\033[0m");
+            }
+
+
+            System.out.println("\033[1;37m"+"\nSTACK: \n"+"\033[0m" + "\033[0;33m" + myStack + "\033[0m");
+        }
         System.out.println("Press any keys and enter to continue");
         try {
             char input = (char) System.in.read();
@@ -259,5 +288,6 @@ public class CodeExecution {
             e.printStackTrace();
         }
     }
+
 
 }

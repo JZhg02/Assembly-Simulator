@@ -15,7 +15,7 @@ public class Main {
         do {
 
             Memory memory = new Memory();
-            System.out.println(Memory.memory);
+            // System.out.println(Memory.memory);
 
             int fileName = 0;
 
