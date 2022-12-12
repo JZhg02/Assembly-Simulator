@@ -27,9 +27,9 @@ public class Main {
                     fileName = Integer.parseInt(Number);
 
                     if (fileName < 1) {
-                        System.out.println("You entered a negative number, please enter a number between 1 and 10");
-                    } else if (fileName > 10) {
-                        System.out.println("You entered a number greater than 10, please enter a number between 1 and 10");
+                        System.out.println("You entered a negative number, please enter a number between 1 and 14");
+                    } else if (fileName > 14) {
+                        System.out.println("You entered a number greater than 14, please enter a number between 1 and 14");
                     } else {
                         System.out.println("You entered a valid number ! The program will now run the file n-" + fileName);
                         myfile = new FileParser(fileName);
@@ -37,7 +37,7 @@ public class Main {
                 } catch (Exception e) {
                     System.out.println("Please enter a valid file name");
                 }
-            } while (fileName < 1 || fileName > 10);
+            } while (fileName < 1 || fileName > 14);
 
             System.out.println("STEP BY STEP MODE ? (y/n)");
             String stepByStep = sc.next();
