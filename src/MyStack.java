@@ -14,6 +14,8 @@ public class MyStack {
         return(myStack.pop());
     }
 
+    public static void clear(){ myStack.clear(); }
+
     @Override
     public String toString(){
         StringBuilder str = new StringBuilder("");

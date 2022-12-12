@@ -44,7 +44,7 @@ public class Main {
             System.out.println("STEP BY STEP MODE ? (y/n)");
             String stepByStep = sc.next();
 
-            if (stepByStep.equals("y")) {
+            if (stepByStep.equalsIgnoreCase("y")) {
                 System.out.println("STEP BY STEP MODE ACTIVATED");
                 System.out.println("Press enter to continue");
                 System.in.read();
@@ -57,11 +57,6 @@ public class Main {
             myfile.getInstructionsLines();
             myfile.getData();
             myfile.getInstructions();
-            /*
-            Memory myMemory = new Memory();
-            System.out.println("Data in the map: "+Memory.dataMap);
-            System.out.println("Instructions in the map: "+Memory.instructionsMap);
-            System.out.println("Memory: "+Memory.memory);*/
 
             CodeExecution myCode = new CodeExecution();
             myCode.executeCode();
@@ -74,9 +69,11 @@ public class Main {
             if(String.valueOf(choice).equalsIgnoreCase("y")){
                 CodeExecution.problemCounter = 1;
                 CodeExecution.programCounter = 1;
+                MyStack.clear();
             }
         }
         while (choice == 'Y' || choice == 'y');
         System.out.println("Thank you for using our program, goodbye!");
+
     }
 }
