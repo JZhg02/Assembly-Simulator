@@ -4,23 +4,6 @@ import java.util.ArrayList;
 
 public class ALU {
 
-
-    public char[] int2binary(int decimal) throws Exception {
-
-        // Convert int bb to 0,1 char[]
-        char[] binary = (Integer.toString(decimal, 2)).toCharArray();
-
-        // Overflow condition, 32 is max length
-        if (binary.length > 32)
-            throw new Exception("Overflow");
-
-        return binary;
-    }
-
-    public int binary2int(char[] binary) {
-        return Integer.parseInt(new String(binary), 2);
-    }
-
     public boolean isRegister(String s) {
         if (s.equalsIgnoreCase("t0") || s.equalsIgnoreCase("t1") || s.equalsIgnoreCase("t2") || s.equalsIgnoreCase("t3")) {
             return true;
