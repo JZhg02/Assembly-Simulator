@@ -1,15 +1,11 @@
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class CodeExecution {
     MyStack myStack = new MyStack();
 
-    static int problemCounter = 1;
-    static int programCounter = 1;
+    static int PC = 1;
+    static int iteration = 1;
     ArrayList<String> codeLine;
     ALU myALU = new ALU();
     static Register t0 = new Register();
@@ -34,14 +30,14 @@ public class CodeExecution {
         while(!myHLT){
 
             // Get the line of code at line problemCounter;
-            codeLine = Memory.instructionsMap.get(problemCounter);
-            System.out.println("\nPC: "+ programCounter+" | Code Line: "+problemCounter+" | "+Memory.instructionsMap.get(problemCounter));
+            codeLine = Memory.instructionsMap.get(PC);
+            System.out.println("\nIteration: "+ iteration +" | PC: "+ PC +" | "+Memory.instructionsMap.get(PC));
 
             // Done
             if(codeLine.get(0).equalsIgnoreCase("LDA")){
                 myALU.LDA(determineRegister(codeLine.get(1)), codeLine.get(2));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -50,8 +46,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("STR")){
                 myALU.STR(codeLine.get(1), codeLine.get(2));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -60,8 +56,8 @@ public class CodeExecution {
             // To be fixed
             else if(codeLine.get(0).equalsIgnoreCase("PUSH")){
                 myALU.PUSH(codeLine.get(1));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -69,8 +65,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("POP")){
                 myALU.POP(determineRegister(codeLine.get(1)));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -79,8 +75,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("AND")){
                 myALU.AND(determineRegister(codeLine.get(1)), codeLine.get(2));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -88,8 +84,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("OR")){
                 myALU.OR(determineRegister(codeLine.get(1)), codeLine.get(2));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -97,8 +93,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("NOT")){
                 myALU.NOT(determineRegister(codeLine.get(1)));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -106,8 +102,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("ADD")){
                 myALU.ADD(determineRegister(codeLine.get(1)), codeLine.get(2));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -115,8 +111,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("SUB")){
                 myALU.SUB(determineRegister(codeLine.get(1)), codeLine.get(2));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -124,8 +120,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("DIV")){
                 myALU.DIV(determineRegister(codeLine.get(1)), codeLine.get(2));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -133,8 +129,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("MUL")){
                 myALU.MUL(determineRegister(codeLine.get(1)), codeLine.get(2));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -142,8 +138,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("MOD")){
                 myALU.MOD(determineRegister(codeLine.get(1)), codeLine.get(2));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -151,8 +147,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("INC")){
                 myALU.INC(determineRegister(codeLine.get(1)));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -160,8 +156,8 @@ public class CodeExecution {
             // Done
             else if(codeLine.get(0).equalsIgnoreCase("DEC")){
                 myALU.DEC(determineRegister(codeLine.get(1)));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -169,8 +165,8 @@ public class CodeExecution {
 
             else if(codeLine.get(0).equalsIgnoreCase("BEQ")){
                 myALU.BEQ(codeLine.get(1), codeLine.get(2), codeLine.get(3));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -178,8 +174,8 @@ public class CodeExecution {
 
             else if(codeLine.get(0).equalsIgnoreCase("BNE")){
                 myALU.BNE(codeLine.get(1), codeLine.get(2), codeLine.get(3));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -187,8 +183,8 @@ public class CodeExecution {
 
             else if(codeLine.get(0).equalsIgnoreCase("BBG")){
                 myALU.BBG(codeLine.get(1), codeLine.get(2), codeLine.get(3));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -196,8 +192,8 @@ public class CodeExecution {
 
             else if(codeLine.get(0).equalsIgnoreCase("BSM")){
                 myALU.BSM(codeLine.get(1), codeLine.get(2), codeLine.get(3));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -212,8 +208,8 @@ public class CodeExecution {
 
             else if(codeLine.get(0).equalsIgnoreCase("SRL")){
                 myALU.SRL(determineRegister(codeLine.get(1)), codeLine.get(2));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -221,8 +217,8 @@ public class CodeExecution {
 
             else if(codeLine.get(0).equalsIgnoreCase("SRR")){
                 myALU.SRR(determineRegister(codeLine.get(1)), codeLine.get(2));
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }
@@ -237,8 +233,8 @@ public class CodeExecution {
             // If facing a function, we just need to increment the PC, nothing to do, jumping to LABEL are taken care
             // of by the instructions that needs it.
             else {
-                ++problemCounter;
-                ++programCounter;
+                ++PC;
+                ++iteration;
                 if(stepByStep){
                     enterInput();
                 }

@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 
@@ -530,7 +529,7 @@ public class ALU {
     public void JMP(String label){
         for(Map.Entry<Integer, ArrayList<String>> set : Memory.instructionsMap.entrySet()){
             if(set.getValue().get(0).equals(label)){
-                CodeExecution.problemCounter = set.getKey();
+                CodeExecution.PC = set.getKey();
                 break;
             }
         }

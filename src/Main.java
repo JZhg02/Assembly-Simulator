@@ -1,5 +1,3 @@
-import java.net.SocketTimeoutException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -67,8 +65,8 @@ public class Main {
                     "Y(es)"+ "\033[0m"+" or " + "\033[1;91m" + "N(o): \n" + "\033[0m");
             choice = sc.next().charAt(0);
             if(String.valueOf(choice).equalsIgnoreCase("y")){
-                CodeExecution.problemCounter = 1;
-                CodeExecution.programCounter = 1;
+                CodeExecution.PC = 1;
+                CodeExecution.iteration = 1;
                 MyStack.clear();
             }
         }
